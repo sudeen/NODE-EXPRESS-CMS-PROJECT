@@ -9,21 +9,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.engine("handlebars", exphbs({ defaultLayout: "home" }));
 app.set("view engine", "handlebars");
 
-app.get("/", (req, res) => {
-  res.render("home/index");
-});
+const main = require("./routes/home/main");
 
-app.get("/about", (req, res) => {
-  res.render("home/about");
-});
-
-app.get("/login", (req, res) => {
-  res.render("home/login");
-});
-
-app.get("/register", (req, res) => {
-  res.render("home/register");
-});
+app.use("/", main);
 
 const port = process.env.PORT || 8000;
 

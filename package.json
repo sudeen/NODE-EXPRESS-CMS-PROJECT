@@ -1,0 +1,11 @@
+{
+  "name": "mern-cms-project",
+  "version": "1.0.1",
+  "description": "MERN CMS Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sudin Ranjitkar",
+  "license": "ISC"
+}

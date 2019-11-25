@@ -13,6 +13,10 @@ app.get("/", (req, res) => {
   res.render("home/index");
 });
 
+app.get("/about", (req, res) => {
+  res.render("home/about");
+});
+
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {

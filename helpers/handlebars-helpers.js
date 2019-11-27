@@ -1,5 +1,6 @@
 const moment = require("moment");
 
+// Used for option in the form field
 module.exports = {
   select: function(selected, options) {
     return options
@@ -10,10 +11,12 @@ module.exports = {
       );
   },
 
+  // Date Helper
   generateDate: function(date, format) {
     return moment(date).format(format);
   },
 
+  // Used for pagination
   paginate: function(options) {
     let output = "";
     if (options.hash.current === 1) {

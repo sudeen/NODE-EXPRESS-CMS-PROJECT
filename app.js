@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const upload = require("express-fileupload");
 
 mongoose
   .connect("mongodb://localhost:27017/cms", {
@@ -28,12 +29,15 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
+// Upload Middleware
+app.use(upload());
+
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Method override
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 
 // Load Routes
 const main = require("./routes/home/main");

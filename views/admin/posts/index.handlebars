@@ -1,0 +1,51 @@
+<center>
+    <h1>All Posts</h1>
+</center>
+
+{{#if success_message}}
+<div class="alert alert-success">
+    {{success_message}}
+</div>
+{{/if}}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>File</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Allow Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each posts}}
+        <tr>
+            <td>{{id}}</td>
+            <td><img height="50" class="img-responsive" src="/uploads/{{file}}" alt=""></td>
+            <td>{{title}}</td>
+            <td>{{status}}</td>
+            <td>{{allowComments}}</td>
+            <td>
+                <a href="/admin/posts/edit/{{id}}" class="btn btn-info">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit</a>
+
+            </td>
+            <td>
+                <form action="/admin/posts/{{id}}?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span> Delete
+                    </button>
+                </form>
+            </td>
+
+            {{!-- <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info">Edit</a></td>
+            <td>
+                <form action="/admin/posts/{{id}}?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td> --}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

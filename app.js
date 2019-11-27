@@ -11,7 +11,6 @@ const upload = require("express-fileupload");
 const session = require("express-session");
 const flash = require("connect-flash");
 
-
 mongoose
   .connect("mongodb://localhost:27017/cms", {
     useUnifiedTopology: true,
@@ -25,10 +24,13 @@ mongoose
 app.use(express.static(path.join(__dirname, "public")));
 
 // Set View Engine
-const { select } = require("./helpers/handlebars-helpers");
+const { select, generateDate } = require("./helpers/handlebars-helpers");
 app.engine(
   "handlebars",
-  exphbs({ defaultLayout: "home", helpers: { select: select } }),
+  exphbs({
+    defaultLayout: "home",
+    helpers: { select: select, generateDate: generateDate },
+  }),
 );
 app.set("view engine", "handlebars");
 

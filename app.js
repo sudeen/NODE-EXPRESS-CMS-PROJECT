@@ -8,6 +8,8 @@ mongoose.Promise = global.Promise;
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const upload = require("express-fileupload");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 mongoose
   .connect("mongodb://localhost:27017/cms", {
@@ -38,6 +40,23 @@ app.use(bodyParser.json());
 
 // Method override
 app.use(methodOverride("_method"));
+
+app.use(
+  session({
+    secret: "sudinranjitkar",
+    resave: true,
+    saveUninitialized: true,
+    // cookie: { secure: true },
+  }),
+);
+
+app.use(flash());
+
+// Local variables usign middlewares
+app.use((req, res, next) => {
+  res.locals.success_message = req.flash("success_message");
+  next();
+});
 
 // Load Routes
 const main = require("./routes/home/main");

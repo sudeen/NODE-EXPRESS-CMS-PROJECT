@@ -93,7 +93,18 @@ router.put("/edit/:id", (req, res) => {
     post.status = req.body.status;
     post.allowComments = allowComments;
     post.body = req.body.body;
+
+    if (!isEmpty(req.files)) {
+      let file = req.files.file;
+      filename = Date.now() + "-" + file.name;
+      post.file = filename;
+
+      file.mv("./public/uploads/" + filename, err => {
+        if (err) throw err;
+      });
+    }
     post.save().then(updatedPost => {
+      req.flash("success_message", "Post was successfully updated");
       res.redirect("/admin/posts");
     });
   });
@@ -104,7 +115,7 @@ router.delete("/:id", (req, res) => {
     fs.unlink(uploadDir + post.file, err => {
       post.deleteOne();
       // console.log("error while deleting", err);
-      // req.flash("Success message", "Post successfully deleted");
+      req.flash("success_message", "Post successfully deleted");
       res.redirect("/admin/posts");
     });
   });

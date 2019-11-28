@@ -65,11 +65,13 @@ app.use((req, res, next) => {
 const main = require("./routes/home/index");
 const mainAdmin = require("./routes/admin/main-admin");
 const posts = require("./routes/admin/posts");
+const categories = require("./routes/admin/categories");
 
 // Use Routes
 app.use("/", main);
 app.use("/admin", mainAdmin);
 app.use("/admin/posts", posts);
+app.use("/admin/categories", categories);
 
 const port = process.env.PORT || 8000;
 

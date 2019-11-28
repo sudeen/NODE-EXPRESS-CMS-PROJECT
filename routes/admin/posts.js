@@ -76,7 +76,7 @@ router.post("/create", (req, res) => {
 router.get("/edit/:id", (req, res) => {
   Post.findById({ _id: req.params.id })
     .then(post => {
-      console.log("POST", post);
+      // console.log("POST", post);
       res.render("admin/posts/edit", { post: post });
     })
     .catch(error => console.log("Cannot get all the posts"));

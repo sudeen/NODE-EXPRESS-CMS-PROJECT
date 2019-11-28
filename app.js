@@ -62,7 +62,7 @@ app.use((req, res, next) => {
 });
 
 // Load Routes
-const main = require("./routes/home/main");
+const main = require("./routes/home/index");
 const mainAdmin = require("./routes/admin/main-admin");
 const posts = require("./routes/admin/posts");
 

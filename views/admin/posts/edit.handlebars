@@ -16,9 +16,13 @@
         <label for="category">Category</label>
         <select name="category" id="category" class="form-control">
 
+
+            {{#select post.category}}
             {{#each categories}}
             <option value="{{id}}">{{name}}</option>
             {{/each}}
+            {{/select}}
+
 
         </select>
     </div>

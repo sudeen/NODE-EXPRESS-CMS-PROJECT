@@ -13,6 +13,7 @@ router.all("/*", (req, res, next) => {
 
 router.get("/", (req, res) => {
   Post.find({})
+    .populate("category")
     .then(posts => {
       res.render("admin/posts", { posts: posts });
     })
@@ -96,6 +97,7 @@ router.put("/edit/:id", (req, res) => {
     post.status = req.body.status;
     post.allowComments = allowComments;
     post.body = req.body.body;
+    post.category = req.body.category;
 
     if (!isEmpty(req.files)) {
       let file = req.files.file;

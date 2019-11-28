@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../../models/Posts");
+const Category = require("../../models/Category");
 const { isEmpty, uploadDir } = require("../../helpers/upload-helper");
 const fs = require("fs");
 // const path = require("path");
@@ -19,7 +20,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/create", (req, res) => {
-  res.render("admin/posts/create");
+  Category.find({}).then(categories => {
+    res.render("admin/posts/create", { categories: categories });
+  });
 });
 
 router.post("/create", (req, res) => {
@@ -60,6 +63,7 @@ router.post("/create", (req, res) => {
       status: req.body.status,
       allowComments: allowComments,
       body: req.body.body,
+      category: req.body.category,
       file: fileName,
     });
     newPost
@@ -74,12 +78,11 @@ router.post("/create", (req, res) => {
 });
 
 router.get("/edit/:id", (req, res) => {
-  Post.findById({ _id: req.params.id })
-    .then(post => {
-      // console.log("POST", post);
-      res.render("admin/posts/edit", { post: post });
-    })
-    .catch(error => console.log("Cannot get all the posts"));
+  Post.findOne({ _id: req.params.id }).then(post => {
+    Category.find({}).then(categories => {
+      res.render("admin/posts/edit", { post: post, categories: categories });
+    });
+  });
 });
 
 router.put("/edit/:id", (req, res) => {

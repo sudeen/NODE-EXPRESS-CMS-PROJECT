@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require("../../models/Posts");
 const Category = require("../../models/Category");
 const User = require("../../models/User");
+const bcrypt = require("bcryptjs");
 
 router.all("/*", (req, res, next) => {
   req.app.locals.layout = "home";
@@ -59,16 +60,33 @@ router.post("/register", (req, res) => {
   if (errors.length > 0) {
     res.render("home/register", {
       errors: errors,
-    });
-  } else {
-    let newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       password: req.body.password,
     });
-    newUser.save().then(savedUser => {
-      res.send("User was saved");
+  } else {
+    User.findOne({ email: req.body.email }).then(user => {
+      if (!user) {
+        let newUser = new User({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+        });
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            newUser.password = hash;
+            newUser.save().then(savedUser => {
+              req.flash("success_message", "User registered, Please login");
+              res.redirect("/login");
+            });
+            // console.log(hash);
+          });
+        });
+      } else {
+        req.flash("error_message", "Email already exists please login");
+        res.redirect("/login");
+      }
     });
   }
 });

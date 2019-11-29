@@ -26,11 +26,10 @@ router.get("/about", (req, res) => {
   res.render("home/about");
 });
 
+// APP LOGIN
 router.get("/login", (req, res) => {
   res.render("home/login");
 });
-
-// APP LOGIN
 
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
@@ -69,6 +68,13 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+// LOGOUT
+router.get("/logout", (req, res) => {
+  req.logOut();
+  res.redirect("/login");
+});
+
+// REGISTER
 router.get("/register", (req, res) => {
   res.render("home/register");
 });

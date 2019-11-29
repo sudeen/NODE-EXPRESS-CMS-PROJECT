@@ -17,6 +17,7 @@ mongoose
   .connect(mongoDbUrl, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useFindAndModify: false,
   })
   .then(db => {
     console.log("MONGO DB CONNECTED");
@@ -76,12 +77,14 @@ const main = require("./routes/home/index");
 const mainAdmin = require("./routes/admin/main-admin");
 const posts = require("./routes/admin/posts");
 const categories = require("./routes/admin/categories");
+const comments = require("./routes/admin/comments");
 
 // Use Routes
 app.use("/", main);
 app.use("/admin", mainAdmin);
 app.use("/admin/posts", posts);
 app.use("/admin/categories", categories);
+app.use("/admin/comments", comments);
 
 const port = process.env.PORT || 8000;
 

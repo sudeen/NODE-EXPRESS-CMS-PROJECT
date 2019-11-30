@@ -21,6 +21,14 @@ router.get("/", (req, res) => {
     .catch(error => console.log("Cannot get all the posts"));
 });
 
+router.get("/my-posts", (req, res) => {
+  Post.find({ user: req.user.id })
+    .populate("category")
+    .then(posts => {
+      res.render("admin/posts/my-posts", { posts: posts });
+    });
+});
+
 router.get("/create", (req, res) => {
   Category.find({}).then(categories => {
     res.render("admin/posts/create", { categories: categories });

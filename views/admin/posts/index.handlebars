@@ -26,7 +26,8 @@
             <td>{{status}}</td>
             <td>{{allowComments}}</td>
             <td>{{generateDate date 'MMMM Do YYYY'}}</td>
-            <td>
+            <td><a href="/post/{{id}}">View Post</a></td>
+            {{!-- <td>
                 <a href="/admin/posts/edit/{{id}}" class="btn btn-info">
                     <span class="glyphicon glyphicon-pencil"></span> Edit</a>
 
@@ -37,7 +38,7 @@
                         <span class="glyphicon glyphicon-trash"></span> Delete
                     </button>
                 </form>
-            </td>
+            </td> --}}
 
             {{!-- <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info">Edit</a></td>
             <td>

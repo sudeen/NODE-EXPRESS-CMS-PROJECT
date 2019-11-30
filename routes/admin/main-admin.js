@@ -10,7 +10,9 @@ router.all("/*", (req, res, next) => {
 });
 
 router.get("/", (req, res) => {
-  res.render("admin/index");
+  Post.count({}).then(postCount => {
+    res.render("admin/index", { postCount: postCount });
+  });
 });
 
 router.post("/generate-fake-posts", (req, res) => {

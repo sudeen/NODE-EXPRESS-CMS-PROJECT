@@ -18,6 +18,7 @@ mongoose
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false,
+    useCreateIndex: true,
   })
   .then(db => {
     console.log("MONGO DB CONNECTED");
@@ -27,12 +28,16 @@ mongoose
 app.use(express.static(path.join(__dirname, "public")));
 
 // Set View Engine
-const { select, generateDate } = require("./helpers/handlebars-helpers");
+const {
+  select,
+  generateDate,
+  paginate,
+} = require("./helpers/handlebars-helpers");
 app.engine(
   "handlebars",
   exphbs({
     defaultLayout: "home",
-    helpers: { select: select, generateDate: generateDate },
+    helpers: { select: select, generateDate: generateDate, paginate: paginate },
   }),
 );
 app.set("view engine", "handlebars");

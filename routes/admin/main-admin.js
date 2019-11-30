@@ -3,6 +3,8 @@ const router = express.Router();
 const Post = require("../../models/Post");
 const faker = require("faker");
 const { userAuthenticated } = require("../../helpers/authentication");
+const Category = require("../../models/Category");
+const Comment = require("../../models/Comment");
 
 router.all("/*", (req, res, next) => {
   req.app.locals.layout = "admin";
@@ -10,9 +12,22 @@ router.all("/*", (req, res, next) => {
 });
 
 router.get("/", (req, res) => {
-  Post.count({}).then(postCount => {
-    res.render("admin/index", { postCount: postCount });
+  const promises = [
+    Post.count().exec(),
+    Category.count().exec(),
+    Comment.count().exec(),
+  ];
+
+  Promise.all(promises).then(([postCount, categoryCount, commentCount]) => {
+    res.render("admin/index", {
+      postCount: postCount,
+      categoryCount: categoryCount,
+      commentCount: commentCount,
+    });
   });
+  // Post.count({}).then(postCount => {
+  //   res.render("admin/index", { postCount: postCount });
+  // });
 });
 
 router.post("/generate-fake-posts", (req, res) => {
@@ -22,6 +37,7 @@ router.post("/generate-fake-posts", (req, res) => {
     post.status = "Public";
     post.allowComments = faker.random.boolean();
     post.body = faker.lorem.sentence();
+    post.slug = faker.name.title();
     post.save(function(err) {
       if (err) throw err;
     });

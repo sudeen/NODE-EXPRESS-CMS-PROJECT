@@ -13,10 +13,21 @@ router.all("/*", (req, res, next) => {
 });
 
 router.get("/", (req, res) => {
+  const perPage = 10;
+  const page = req.query.page || 1;
   Post.find({})
+    .skip(perPage * page - perPage)
+    .limit(perPage)
     .then(posts => {
-      Category.find({}).then(categories => {
-        res.render("home/index", { posts: posts, categories: categories });
+      Post.count().then(postCount => {
+        Category.find({}).then(categories => {
+          res.render("home/index", {
+            posts: posts,
+            categories: categories,
+            current: parseInt(page),
+            pages: Math.ceil(postCount / perPage),
+          });
+        });
       });
     })
     .catch(error => console.log("Cannot get all the posts"));
